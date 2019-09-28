@@ -49,7 +49,7 @@ publishing {
     publications {
         maven(MavenPublication) {
             groupId = 'org.checkerframework'
-            artifactId = 'templatefora-checker'
+            artifactId = 'foobarname-checker'
             version = '0.1-SNAPSHOT'
 
             from components.java
@@ -58,7 +58,7 @@ publishing {
 }
 
 test {
-    inputs.files("tests/templatefora")
+    inputs.files("tests/foobarname")
     if (!JavaVersion.current().java9Compatible) {
         jvmArgs "-Xbootclasspath/p:${configurations.errorproneJavac.asPath}"
     }

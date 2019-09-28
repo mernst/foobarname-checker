@@ -1,19 +1,18 @@
-package org.checkerframework.checker.templatefora.qual;
+package org.checkerframework.checker.foobarname.qual;
 
 import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import org.checkerframework.framework.qual.DefaultQualifierInHierarchy;
 import org.checkerframework.framework.qual.SubtypeOf;
 
 /**
- * The value might or might not be TODO. It is not safe to use for TODO.
+ * The string might or might not be a foobar name.
  *
  * <p>This is the default type, so programmers usually do not need to write it.
  */
-@Retention(RetentionPolicy.RUNTIME)
+// Meta-annotations defined by Java.
 @Target({ElementType.TYPE_USE, ElementType.TYPE_PARAMETER})
-@DefaultQualifierInHierarchy
+// Meta-annotations defined by the Checker Framework.
 @SubtypeOf({})
-public @interface TemplateforaUnknown {}
+@DefaultQualifierInHierarchy
+public @interface FoobarNameUnknown {}
