@@ -1,9 +1,12 @@
 package org.checkerframework.checker.foobarname;
 
+import com.sun.source.tree.Tree;
+import com.sun.source.tree.VariableTree;
 import java.util.Iterator;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.Name;
 import javax.lang.model.element.VariableElement;
 import org.checkerframework.checker.foobarname.qual.FoobarName;
 import org.checkerframework.checker.foobarname.qual.FoobarNameUnknown;
@@ -84,6 +87,41 @@ public class FoobarNameAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
         break;
     }
     super.addComputedTypeAnnotations(elt, type);
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * <p>This implementation adds the @FoobarName type to String variables with certain names.
+   */
+  @Override
+  public void addComputedTypeAnnotations(Tree tree, AnnotatedTypeMirror type, boolean useFlow) {
+    if (DEBUG) {
+      System.out.printf("%naddComputedTypeAnnotations%n");
+      System.out.printf("Tree: %s%n", tree);
+      System.out.printf("  Kind:: %s%n", tree.getKind());
+      System.out.printf("Type: %s%n", type);
+    }
+
+    switch (tree.getKind()) {
+      case VARIABLE:
+        Name name = ((VariableTree) tree).getName();
+        if (isFoobarNameVariable(name.toString(), type)) {
+          if (!type.hasAnnotation(foobarNameUnknownAnnotation)) {
+            type.replaceAnnotation(foobarNameAnnotation);
+            if (DEBUG) {
+              System.out.printf("addComputedTypeAnnotations:%n");
+              System.out.printf("Tree: %s%n", tree);
+              System.out.printf("New type: %s%n", type);
+            }
+          }
+        }
+        break;
+
+      default:
+        break;
+    }
+    super.addComputedTypeAnnotations(tree, type, useFlow);
   }
 
   @Override
