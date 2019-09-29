@@ -1,30 +1,3 @@
-# Template for a checker built on the Checker Framework
-
-This is a template for a pluggable type-checker built on the Checker Framework.
-
-### How to use this template to build your own typechecker
-
-To build your own typechecker:
-2. Make changes to your copy.  We will give examples based on creating a
-   checker to verify character encoding, such as UTF-8.
-
-* Change the groupId of the `publishing` block in the `build.gradle` file
-  to an organization you belong to that can publish to Maven
-  Central. Change the name of the package containing the source (currently
-  `org.checkerframework.checker.foobarname`) so that it reflects your
-  organization's naming standards. Replace all instances of `org.checkerframework.checker.foobarname` and
-  `org/checkerframework/checker/foobarname` with whatever name you have chosen.
-* Follow the ["How to create a new checker"
-  instructions](https://checkerframework.org/manual/#creating-a-checker)
-  in the Checker Framework Manual.
-
-* While following the instructions, you should have changed all occurrences of TODO
-  (and probably all occurrences of "Bottom") throughout the repository, and
-  modified this README so that it describes your checker.
-
-* Remove all text from the top of this README, through this line.
-
-
 # Foobar Name Checker
 
 Some String variables contain Foobar Names.
@@ -55,30 +28,31 @@ dependencies {
 ```
 
 Now, when you build your project, the Foobar Name Checker will also run,
-informing you of any potential errors related to TODO.
+informing you of any potential errors related to foobar names.
 
 
 ## How to specify your code
 
 At compile time, the Foobar NameChecker estimates what values the program
-may compute at run time.  It issues a warning if the program may TODO.
+may compute at run time.  It issues a warning if the program may use a
+foobar name incorrectly.
 It works via a technique called pluggable typechecking.
 
 You need to specify the contracts of methods and fields in your code --
 that is, their requirements and their guarantees.  The Foobar NameChecker
 ensures that your code is consistent with the contracts, and that the
-contracts guarantee that TODO.
+contracts guarantee that foobar names are used consistently.
 
 You specify your code by writing *qualifiers* such as `@FoobarName`
 on types, to indicate more precisely what values the type represents.
 Here are the type qualifiers that are supported by the Foobar NameChecker:
 
 `@FoobarNameUnknown`:
-The value might or might not be TODO. It is not safe to use for TODO.
+The value might or might not be a foobar name.
 This is the default type, so programmers usually do not need to write it.
 
 `@FoobarName`:
-The value is definitely TODO. It is safe to use for TODO.
+The value is definitely a foobar name.
 
 
 ## How to build the checker
