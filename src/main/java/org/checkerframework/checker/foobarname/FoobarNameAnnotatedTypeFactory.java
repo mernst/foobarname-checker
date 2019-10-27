@@ -30,9 +30,6 @@ import org.checkerframework.javacutil.TypesUtils;
  */
 public class FoobarNameAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
 
-  /** Set to true for verbose debugging output. */
-  private static final boolean DEBUG = false;
-
   /** The @FoobarName annotation. */
   private AnnotationMirror foobarNameAnnotation;
   /** The @FoobarNameUnknown annotation. */
@@ -57,10 +54,6 @@ public class FoobarNameAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
    */
   @Override
   public void addComputedTypeAnnotations(Element elt, AnnotatedTypeMirror type) {
-    if (DEBUG) {
-      printElement(elt, type);
-    }
-
     switch (elt.getKind()) {
       case FIELD:
       case LOCAL_VARIABLE:
@@ -96,24 +89,12 @@ public class FoobarNameAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
    */
   @Override
   public void addComputedTypeAnnotations(Tree tree, AnnotatedTypeMirror type, boolean useFlow) {
-    if (DEBUG) {
-      System.out.printf("%naddComputedTypeAnnotations%n");
-      System.out.printf("Tree: %s%n", tree);
-      System.out.printf("  Kind:: %s%n", tree.getKind());
-      System.out.printf("Type: %s%n", type);
-    }
-
     switch (tree.getKind()) {
       case VARIABLE:
         Name name = ((VariableTree) tree).getName();
         if (isFoobarNameVariable(name.toString(), type)) {
           if (!type.hasAnnotation(foobarNameUnknownAnnotation)) {
             type.replaceAnnotation(foobarNameAnnotation);
-            if (DEBUG) {
-              System.out.printf("addComputedTypeAnnotations:%n");
-              System.out.printf("Tree: %s%n", tree);
-              System.out.printf("New type: %s%n", type);
-            }
           }
         }
         break;
@@ -168,39 +149,6 @@ public class FoobarNameAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
     }
   }
 
-  /** Print a lot of verbose information about the given element and type. */
-  void printElement(Element elt, AnnotatedTypeMirror type) {
-
-    System.out.printf("%n");
-    System.out.printf("Element: %s  [%s]%n", elt, elt.getClass());
-    Element enclosing = elt.getEnclosingElement();
-    System.out.printf(
-        "getEnclosingElement(): %s  [%s]  [%s]%n",
-        enclosing, enclosing.getClass(), enclosing.getKind());
-    System.out.printf("Kind: %s%n", elt.getKind());
-    System.out.printf("Type: %s  [%s]%n", type, type.getClass());
-
-    switch (elt.getKind()) {
-      case FIELD:
-        break;
-      case PARAMETER:
-        break;
-
-      case CLASS:
-      case INTERFACE:
-        // Iterable<Symbol> elements = ((Symbol.ClassSymbol) elt).members().getElements();
-        // for (Symbol sym : elements) {
-        //   System.out.printf("member: %s  [%s]%n", sym, sym.getClass());
-        // }
-        break;
-
-      default:
-        break;
-    }
-
-    System.out.printf("%n");
-  }
-
   /**
    * Returns true if the given variable name and type indicates that the variable contains a foobar
    * name.
@@ -219,4 +167,5 @@ public class FoobarNameAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
         && methodName.startsWith("get")
         && methodName.endsWith("FoobarName"));
   }
+
 }
